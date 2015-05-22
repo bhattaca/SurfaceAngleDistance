@@ -300,9 +300,9 @@ void TriangleCellIntersection::find_simplices_in_shell_distance_from_cube(const 
 	}
 
 	//Looping through shell of cube
-	for (int a = fmax(0, box_coords[0] - shell_level); a < original_lengths[0] && a <= box_coords[0] + shell_level; a++){
-		for (int b = fmax(0, box_coords[1] - shell_level); b < original_lengths[1] && b <= box_coords[1] + shell_level; b++){
-			int c = fmax(0, box_coords[2] - shell_level);
+	for (int a = max(0, box_coords[0] - shell_level); a < original_lengths[0] && a <= box_coords[0] + shell_level; a++){
+		for (int b = max(0, box_coords[1] - shell_level); b < original_lengths[1] && b <= box_coords[1] + shell_level; b++){
+			int c = max(0, box_coords[2] - shell_level);
 
 			bool c_ran = false;
 			while (c < original_lengths[2] && c <= box_coords[2] + shell_level){
@@ -331,7 +331,7 @@ void TriangleCellIntersection::find_simplices_in_shell_distance_from_cube(const 
 				//If in the middle of "side" faces, skip the interior
 				else{
 					if (!c_ran){
-						c = fmin(lengths[2], box_coords[2] + shell_level);
+						c = min(lengths[2], box_coords[2] + shell_level);
 					}
 					else{
 						c++;

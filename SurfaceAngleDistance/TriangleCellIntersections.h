@@ -20,10 +20,10 @@ class SubGrid{
 
 public:
 	SubGrid(){
-
+		 non_empty = false;
 	}
 
-	bool non_empty = false;
+	bool non_empty;
 	void *sub_grid;
 
 };

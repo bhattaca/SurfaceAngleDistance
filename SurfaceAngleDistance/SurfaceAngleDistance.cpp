@@ -13,11 +13,12 @@
 #include <iostream>
 #include <fstream>
 #include <cmath> 
-#include <string.h>
 #include <stdio.h>
 #include <stdio.h>
 #include <float.h>
-#include <stdlib.h>   
+#include <stdlib.h>
+#include <math.h>
+#include <string>
 ////////////////////////////
 
 ///////Timing//////
@@ -308,7 +309,7 @@ double surface_angle_distance::surface_angle_distance_extended(const std::vector
 	free_memory(segmented_triangles_s2, s2_grid);
 
 	//Returns the max angle
-	return fmax(max_angle_1, max_angle_2);
+	return max(max_angle_1, max_angle_2);
 }
 
 void surface_angle_distance::free_memory(std::vector<segmentedTriangle> & triangles, TriangleCellIntersection & cells){
@@ -457,11 +458,14 @@ void surface_angle_distance::print_info_under_cutoff(const std::vector<segmented
 /*
 Creates a histogram of the area of simplices in range of angles
 */
-void surface_angle_distance::create_area_simplices_histogram(const std::vector<segmentedTriangle> & segmented_triangles_s1, const std::vector<segmentedTriangle> & segmented_triangles_s2, std::string prefix, bool testing_script_mode){
+void surface_angle_distance::create_area_simplices_histogram(const std::vector<segmentedTriangle> & segmented_triangles_s1, 
+															 const std::vector<segmentedTriangle> & segmented_triangles_s2, std::string prefix_, bool testing_script_mode){
 
-	std::string histo1_name = prefix + "area_simplices_histogram_1.dat";
+	std::string area_simplices_fname = "area_simplices_histogram_1.dat";
+	std::string histo1_name = prefix_ + area_simplices_fname;
+
 	if (testing_script_mode){
-		histo1_name = prefix + "area_simplices_histogram_perfect.dat";
+		histo1_name = prefix_ + "area_simplices_histogram_perfect.dat";
 	}
 	std::ofstream histo1(histo1_name.c_str());
 
@@ -519,9 +523,9 @@ void surface_angle_distance::create_area_simplices_histogram(const std::vector<s
 	histo1.close();
 
 
-	std::string histo2_name = prefix + "area_simplices_histogram_2.dat";
+	std::string histo2_name = prefix_ + "area_simplices_histogram_2.dat";
 	if (testing_script_mode){
-		histo2_name = prefix + "area_simplices_histogram_religrad.dat";
+		histo2_name = prefix_ + "area_simplices_histogram_religrad.dat";
 	}
 	std::ofstream histo2(histo2_name.c_str());
 
@@ -605,7 +609,7 @@ void surface_angle_distance::create_num_simplices_histogram(const std::vector<do
 
 	histo1.close();
 
-	std::string histo2_name = prefix + "num_simplices_histogram_2.dat";
+	std::string histo2_name = string(prefix) + "num_simplices_histogram_2.dat";
 	std::ofstream histo2(histo2_name.c_str());
 
 	for (int n = 0; n < size; n++){
@@ -1567,8 +1571,8 @@ double surface_angle_distance::edge_length(const std::vector<double> & triangle)
 	double p13_d = point_to_point_distance(p1, p3);
 	double p23_d = point_to_point_distance(p2, p3);
 
-	double max_length = fmax(p12_d, p13_d);
-	max_length = fmax(max_length, p23_d);
+	double max_length =  max(p12_d, p13_d);
+	max_length = max(max_length, p23_d);
 
 	//Sum of distance between points
 	//edge_length += point_to_point_distance(p1, p2);
@@ -1631,8 +1635,8 @@ double surface_angle_distance::smallest_edge_length(const std::vector<double> tr
 	double p13_d = point_to_point_distance(p1, p3);
 	double p23_d = point_to_point_distance(p2, p3);
 
-	double max_length = fmin(p12_d, p13_d);
-	max_length = fmin(max_length, p23_d);
+	double max_length = min(p12_d, p13_d);
+	max_length = min(max_length, p23_d);
 
 	return max_length;
 }
